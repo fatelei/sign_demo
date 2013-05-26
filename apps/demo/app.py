@@ -7,7 +7,7 @@ import tornado.ioloop
 from tornado import web
 from tornado.options import options
 
-from urls import handlers
+from demo.urls import handlers
 
 BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 

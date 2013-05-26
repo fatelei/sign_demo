@@ -1,3 +1,8 @@
 *.pyc
 parts
-
+bin
+eggs
+develop-eggs
+.installed.cfg
+sign_contact.egg-info
+settings.py

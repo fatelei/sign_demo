@@ -1,0 +1,61 @@
+{%extends "base.html"%}
+{%block content%}
+<div>
+    <form id="profileForm" method="POST">
+        {%module xsrf_form_html()%}
+        <table>
+            <tr>
+                <td>真实姓名:</td>
+                <td>
+                    {%if data['fullname']%}
+                    <input class="easyui-validatebox" type="text" name="fullname" value="{{data['fullname']}}" data-options="required:true"/>
+                    {%else%}
+                    <input class="easyui-validatebox" type="text" name="fullname" data-options="required:true"/>
+                    {%end%}
+                </td>
+            </tr>
+            <tr>
+                <td>邮箱:</td>
+                <td>
+                    {%if data['email']%}
+                    <input class="easyui-validatebox" type="text" name="email" value="{{data['email']}}" data-options="required:true,validType:'email'"/>
+                    {%else%}
+                    <input class="easyui-validatebox" type="text" name="email" data-options="required:true,validType:'email'"/>
+                    {%end%}
+                </td>
+            </tr>
+            <tr>
+                <td>电话:</td>
+                <td>
+                    {%if data['phone']%}
+                    <input class="easyui-validatebox" type="text" name="phone" value="{{data['phone']}}" data-options="required:true"/>
+                    {%else%}
+                    <input class="easyui-validatebox" type="text" name="phone" data-options="required:true"/>
+                    {%end%}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="easyui-linkbutton" iconCls="icon-ok" id="upProfile">更新个人信息</a>
+                </td>
+                <td>
+                    <a class="easyui-linkbutton" iconCls="icon-cancel" id="clProfile">重置</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+{%end%}
+{%block js%}
+<script type="text/javascript" src="{{static_url('js/user.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/common.js')}}"></script>
+<script type="text/javascript">
+    var target_url = "{{reverse_url('profile', current_user.id)}}";
+    var redirect_url = undefined;
+    var tools = new Tools();
+    $(document).ready(function () {
+        bind_event_to_form("profileForm", target_url, redirect_url);
+        bind_modify_event("profileForm");
+    });
+</script>
+{%end%}

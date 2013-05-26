@@ -18,6 +18,25 @@ class UserDAO(object):
         _id = rst.inserted_primary_key[0]
         return _id
 
+    @classmethod
+    def get_profile_id_by_user_id(cls, user_id):
+        query = select([table.user.c.profile_id])\
+                    .where(table.user.c.id == int(user_id))
+        rst = table.execute(query).fetchone()
+        if rst:
+            return rst[0]
+        else:
+            return None
+
+
+    @classmethod
+    def update_user_password(cls, user_id, password):
+        password = encryption(password)
+        update = table.user.update()\
+                           .where(table.user.c.id == int(user_id))\
+                           .values(password = password)
+        table.execute(update)
+
 
     @classmethod
     def get_user_by_user_id(cls, user_id):
@@ -46,7 +65,7 @@ class UserDAO(object):
     @classmethod
     def check_user_permission(cls, user_id, target):
         query = select([table.user.c.user_permission, talbe.user.c.role])\
-                    where(table.user.c.id == int(user_id))
+                    .where(table.user.c.id == int(user_id))
         rst = table.execute(query).first()
         if rst[0]:
             if rst[0]&target:

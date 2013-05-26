@@ -5,16 +5,19 @@ CREATE TABLE `user` (
     `role` tinyint(1) NULL DEFAULT 0 COMMENT '用户角色',
     `is_active` tinyint(1) NULL DEFAULT -1 COMMENT '账户状态',
     `register_date` int(11) unsigned NULL COMMENT '注册时间',
-    `user_permission` int(11) NULL COMMENT '用户权限',
+    `permission_id` int(11) NULL COMMENT '用户权限',
+    `company_id` int(11) NULL COMMENT '用户所属公司',
+    `profile_id` int(11) NULL COMMENT '用户个人信息',
+    `certificate_id` int(11) NULL COMMENT '证书',
+    `is_delete` tinyint(1) NULL DEFAULT 0 COMMENT '用户是否被删除',
     PRIMARY KEY (`id`),
     KEY `role` (`role`, `id`),
     KEY `is_active` (`is_active`, `id`),
-    KEY `user_permission` (`user_permission`, `id`),
     UNIQUE KEY `username` (`username`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE "user_permission" (
+CREATE TABLE `permission` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `permission` int(11) NOT NULL COMMENT '权限描述',
     PRIMARY KEY (`id`),
@@ -24,15 +27,12 @@ CREATE TABLE "user_permission" (
 
 CREATE TABLE `userprofile` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `user_id` int(11) NOT NULL COMMENT '用户ID',
     `fullname` varchar(255) NOT NULL COMMENT '用户真实姓名',
     `email` varchar(255) NULL COMMENT '用户邮箱',
     `phone` varchar(255) NULL COMMENT '用户电话',
+    `is_delete` tinyint(1) NULL DEFAULT 0 COMMENT '用户个人信息是否被删除',
     PRIMARY KEY (`id`),
-    KEY `user_id` (`user_id`),
     KEY `fullname` (`fullname`),
-    KEY `email` (`email`),
-    KEY `phone` (`phone`),
     UNIQUE KEY `email` (`email`),
     UNIQUE KEY `phone` (`phone`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -40,19 +40,17 @@ CREATE TABLE `userprofile` (
 
 CREATE TABLE `user_certificate` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `user_id` int(11) NOT NULL COMMENT '用户ID',
     `enc_cert_sn` varchar(255) NOT NULL COMMENT '加密证书序列号',
     `sign_cert_sn` varchar(255) NOT NULL COMMENT '签名证书序列号',
+    `is_delete` tinyint(1) NULL DEFAULT 0 COMMENT '是否被删除',
     PRIMARY KEY (`id`),
-    KEY `user_id` (`user_id`),
     KEY `enc_cert_sn` (`enc_cert_sn`),
     KEY `sign_cert_sn` (`sign_cert_sn`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `user_company` (
+CREATE TABLE `company` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `user_id` int(11) NOT NULL COMMENT '用户ID',
     `etp_property` varchar(255) NOT NULL COMMENT '企业性质',
     `etp_name` varchar(255) NOT NULL COMMENT '企业名称',
     `etp_address` varchar(255) NOT NULL COMMENT '企业通信地址',
@@ -66,7 +64,6 @@ CREATE TABLE `user_company` (
     `legal_name` varchar(255) NOT NULL COMMENT '法定代表人姓名',
     `legal_phone` varchar(255) NOT NULL COMMENT '法定代表人电话',
     PRIMARY KEY (`id`),
-    KEY `user_id` (`user_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

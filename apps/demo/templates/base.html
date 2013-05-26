@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>电子合同管理平台</title>
+        <link type="text/css" href="{{static_url('css/themes/default/easyui.css')}}" rel="stylesheet"/>
+        <link type="text/css" href="{{static_url('css/themes/icon.css')}}" rel="stylesheet"/>
+        {%block css%}
+        {%end%}
+    </head>
+    <body class="easyui-layout">
+        <div region="north" border="false" style="height:100px;">
+            <p>{{current_user.username}}</p>
+        </div>
+        <div region="west" border="true" split="true" title="导航栏" style="width:200px;">
+            <div id="navi" class="easyui-accordion" fit="true">
+                <div title="用户管理">
+                    <ul class="easyui-tree">
+                        <li data-options="state:'closed'">
+                            <span>个人信息管理</span>
+                            <ul>
+                                <li>
+                                    <a id="modify" href="{{reverse_url('profile', current_user.id)}}">查看个人信息</a>
+                                </li>
+                                <li><a id="pwdchange" href="{{reverse_url('pwdchange', current_user.id)}}">修改密码</a></li>
+                            </ul>
+                        </li>
+                        <li data-options="state:'closed'">
+                            <span>用户管理</span>
+                            <ul>
+                                <li>查看用户</li>
+                                <li>增加用户</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div title="合同管理">
+                    <ul class="easyui-tree">
+                        <li data-options="state:'closed'">
+                            <span>合同</span>
+                            <ul>
+                                <li>查看合同</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div title="合同模板管理">
+                    <ul class="easyui-tree">
+                        <li data-options="state:'closed'">
+                            <span>合同模板</span>
+                            <ul>
+                                <li>查看合同模板</li>
+                                <li>增加合同模板</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div title="日志管理">
+                    <ul class="easyui-tree">
+                        <li data-options="state:'closed'">
+                            <span>日志</span>
+                            <ul>
+                                <li>查看日志</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div region="center" border="true" split="true" title="主界面">
+            {%block content%}
+            {%end%}
+        </div>
+    </body>
+    <script type="text/javascript" src="{{static_url('js/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('js/jquery.easyui.min.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('js/jquery.json-2.4.min.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('js/utils.js')}}"></script>
+    {%block js%}
+    {%end%}
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>用户登录</title>
+        <link type="text/css" href="{{static_url('css/themes/default/easyui.css')}}" rel="stylesheet"/>
+        <link type="text/css" href="{{static_url('css/themes/icon.css')}}" rel="stylesheet"/>
+    </head>
+    <body>
+        <div id="loginWin" class="easyui-window" title="用户登录" style="width:600px;height:400px" collapsible="false" minimizable="false" maximizable="false" closable="false" draggable="false" resizable="false" modal="true">
+            <div class="easyui-layout" data-options="fit:true">
+                <div data-options="region:'center'">
+                    <form id="loginForm" method="POST">
+                        {%module xsrf_form_html()%}
+                        <table>
+                            <tr>
+                                <td>用户名:</td>
+                                <td><input class="easyui-validatebox" type="text" name="username" data-options="required:true"/></td>
+                            </tr>
+                            <tr>
+                                <td>密码:</td>
+                                <td><input class="easyui-validatebox" type="password" name="password" data-options="required:true"/></td>
+                            </tr>
+                            <tr>
+                                <td>用户身份:</td>
+                                <td>
+                                    <select name="role">
+                                        <option value="1" selected>普通用户</option>
+                                        <option value="2">管理员</option>
+                                    </select>        
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a class="easyui-linkbutton" iconCls="icon-ok" id="login">登录</a>
+                                </td>
+                                <td>
+                                    <a class="easyui-linkbutton" iconCls="icon-cancel" id="cancel">重置</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="{{static_url('js/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('js/jquery.easyui.min.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('js/login.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('js/utils.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('js/jquery.json-2.4.min.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('js/common.js')}}"></script>
+    <script type="text/javascript">
+        var login_url = "{{reverse_url('login')}}";
+        var index_url = "{{reverse_url('index')}}";
+        var tools = new Tools();
+        $(document).ready(function() {
+            bind_event_to_form("loginForm", login_url, index_url);
+            bind_login_event();
+        });
+    </script>
+</html>

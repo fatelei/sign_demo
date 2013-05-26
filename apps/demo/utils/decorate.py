@@ -2,6 +2,7 @@
 #-*-coding: utf8-*-
 
 import json
+import logging
 
 from tornado.web import HTTPError
 
