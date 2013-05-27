@@ -44,12 +44,18 @@ class LogoutHandler(BaseHandler):
         self.redirect(self.reverse_url("login"))
 
 
-class AddUserHandler(BaseHandler):
+class UserAddHandler(BaseHandler):
+    @render("useradd.html")
+    @web.authenticated
+    def get(self):
+        return {}
+
     @render()
     @web.authenticated
     def post(self):
         username = self.get_argument("username", None)
         password = self.get_argument("password", None)
+        role = self.get_argument("role", 1)
         email = self.get_argument("email", None)
         fullname = self.get_argument("fullname", None)
         if not username:
@@ -60,16 +66,20 @@ class AddUserHandler(BaseHandler):
             return {"errmsg": u"请填写邮箱"}
         if not fullname:
             return {"errmsg": u"请填写真实姓名"}
-        profile_info = {}
-        profile_info["email"] = email
-        profile_info["fullname"] = fullname
-        profile_id = ProfileDAO.insert_new_profile(user_id, profile_info)
-        user_info = {}
-        user_info["username"] = username
-        user_info["password"] = password
-        user_info["profile_id"] = profile_id
-        user_id = UserDAO.insert_new_user(user_info)
-        return {"msg": u"添加用户成功"}
+        try:
+            profile_info = {}
+            profile_info["email"] = email
+            profile_info["fullname"] = fullname
+            profile_id = ProfileDAO.insert_new_profile(profile_info)
+            user_info = {}
+            user_info["username"] = username
+            user_info["password"] = password
+            user_info["role"] = role
+            user_info["profile_id"] = profile_id
+            user_id = UserDAO.insert_new_user(user_info)
+            return {"msg": u"添加用户成功"}
+        except:
+            return {"errmsg": u"添加用户错误"}
 
 class UserProfileHandler(BaseHandler):
     @render("profile.html")
@@ -83,6 +93,7 @@ class UserProfileHandler(BaseHandler):
                 data["fullname"] = profile.fullname
                 data["email"] = profile.email
                 data["phone"] = profile.phone
+                logging.warning(data)
                 return data
             else:
                 return {"errmsg": u"获取用户信息出错"}
@@ -136,14 +147,33 @@ class UserPwdHandler(BaseHandler):
 class UserRemoveHandler(BaseHandler):
     @render()
     @web.authenticated
-    def post(self, user_id):
+    def post(self):
+        user_id = self.get_argument("user_id", None)
+        if not user_id:
+            return {"errmsg": u"删除失败"}
+        UserDAO.remove_user_by_user_id(user_id)
+        return {"msg": u"删除成功"}
+
+
+class UserListHandler(BaseHandler):
+    @render("userlist.html")
+    @web.authenticated
+    def get(self):
+        return {}
+
+
+class UserListAjaxHandler(BaseHandler):
+    def check_xsrf_cookie(self):
         pass
 
-
-class UserListHandelr(BaseHandler):
     @render()
     @web.authenticated
-    def get(self, page = 1):
-        pass
+    def post(self):
+        page = int(self.get_argument("page", 1))
+        offset = self.get_argument("row", 20)
+        ok_img = self.static_url("img/ok.png")
+        delete_img = self.static_url("img/delete.png")
+        data = UserDAO.get_userlist_by_page(page, ok_img, delete_img, offset)
+        return data
 
 

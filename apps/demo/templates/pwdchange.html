@@ -7,7 +7,7 @@
             <tr>
                 <td>密码:</td>
                 <td>
-                    <input class="easyui-validatebox" type="password" name="password" id="password" data-options="required:true" validType="length[5,10]" missingMessage="必须填写"invalidMessage="密码长度为5到10"/>
+                    <input class="easyui-validatebox" type="password" name="password" id="password" data-options="required:true" validType="length[5,10]" missingMessage="必须填写" invalidMessage="密码长度为5到10"/>
                 </td>
             </tr>
             <tr>
@@ -33,7 +33,7 @@
     var redirect_url = undefined;
     var tools = new Tools();
     $(document).ready(function () {
-        bind_event_to_form("pwdChangeForm", target_url, redirect_url);
+        bind_event_to_form("#pwdChangeForm", target_url, redirect_url);
         bind_pwdchange_event("pwdChangeForm");
         $.extend($.fn.validatebox.defaults.rules, {
             equals: {

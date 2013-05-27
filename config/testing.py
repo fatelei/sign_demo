@@ -12,3 +12,9 @@ DATABASE = {
 SERVER_PORT = 8888
 
 define("sign_server_port", default = SERVER_PORT, help = "port for server listening")
+
+
+ROLE_MAP = {
+	1: u"普通用户",
+	2: u"管理员"
+}

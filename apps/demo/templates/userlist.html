@@ -1,0 +1,35 @@
+{%extends "base.html"%}
+{%block content%}
+<div>
+    <table class="easyui-datagrid" title="用户列表" id="userlist" striped="true" pagination="true" singleSelect="true" fitColumns="true" pageSize="20" url="{{reverse_url('userlist_ajax')}}" rownumbers="true" loadMsg="正在加载，请稍等..." toolbar="#toolbar">
+        <thead>
+            <tr>
+                <th data-options="field:'user_id',width:100">用户编号</th>
+                <th data-options="field:'username',width:100">用户名</th>
+                <th data-options="field:'fullname',width:100">真实姓名</th>
+                <th data-options="field:'email',width:100">用户邮箱</th>
+                <th data-options="field:'phone',width:100">用户电话</th>
+                <th data-options="field:'role',width:100">用户身份</th>
+                <th data-options="field:'is_active',width:100">是否激活</th>
+                <th data-options="field:'register_date',width:100">注册时间</th>
+                <th data-options="field:'is_delete',width:100">是否被删除</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div id="toolbar">
+    <a id="userRemove" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除用户</a>
+</div>
+{%module xsrf_form_html() %}
+{%end%}
+{%block js%}
+<script type="text/javascript" src="{{static_url('js/common.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/user.js')}}"></script>
+<script type="text/javascript">
+    var tools = new Tools();
+    var rm_url = "{{reverse_url('userremove')}}";
+    $(document).ready(function (){
+        bind_user_remove_event(rm_url, "#userlist");
+    });
+</script>
+{%end%}

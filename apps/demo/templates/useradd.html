@@ -1,0 +1,70 @@
+{%extends "base.html"%}
+{%block content%}
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'center',border:false">
+        <form id="addUserForm" method="POST">
+            {%module xsrf_form_html()%}
+            <table cellpadding="10">
+                <tr>
+                    <td>用户名:</td>
+                    <td>
+                        <input class="easyui-validatebox" type="text" name="username" data-options="required:true" missingMessage="必须填写" validType="length[5,10]" invalidMessage="用户名长度5到10"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>密码:</td>
+                    <td>
+                        <input class="easyui-validatebox" type="password" name="password" data-options="required:true" missingMessage="必须填写" validType="length[5,10]" invalidMessage="密码长度5到10"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>真实姓名:</td>
+                    <td>
+                        <input class="easyui-validatebox" type="text" name="fullname" data-options="required:true" missingMessage="必须填写">
+                    </td>
+                </tr>
+                <tr>
+                    <td>用户邮箱:</td>
+                    <td>
+                        <input class="easyui-validatebox" type="text" name="email" data-options="required:true" validType="email" missingMessage="必须填写" invalidMessage="邮箱格式错误">
+                    </td>
+                </tr>
+                <tr>
+                    <td>用户电话:</td>
+                    <td>
+                        <input class="easyui-validatebox" type="text" name="phone" data-options="required:true" missingMessage="必须填写">
+                    </td>
+                </tr>
+                <tr>
+                    <td>用户身份:</td>
+                    <td>
+                        <select name="role">
+                            <option value="1">普通用户</option>
+                            <option value="2">管理员</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div data-options="region:'south',height:100" border="false">
+        <div style="margin-top:20px;margin-right:20px;float:right;">
+            <a class="easyui-linkbutton" iconCls="icon-ok" id="addUser">添加用户</a>
+            <a class="easyui-linkbutton" iconCls="icon-cancel" id="cancelUser">重置</a>
+        </div>
+    </div>
+</div>
+{%end%}
+{%block js%}
+<script type="text/javascript" src="{{static_url('js/common.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/user.js')}}"></script>
+<script type="text/javascript">
+    var tools = new Tools();
+    var target_url = "{{reverse_url('useradd')}}";
+    var redirect_url = undefined;
+    $(document).ready(function () {
+        bind_event_to_form("#addUserForm", target_url, redirect_url);
+        bind_add_user_event("#addUserForm");
+    });
+</script>
+{%end%}

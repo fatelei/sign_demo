@@ -1,6 +1,7 @@
 {%extends "base.html"%}
 {%block content%}
 <div>
+    {%if "fullname" in data%}
     <form id="profileForm" method="POST">
         {%module xsrf_form_html()%}
         <table>
@@ -44,6 +45,11 @@
             </tr>
         </table>
     </form>
+    {%else%}
+    <div id="errWin" class="easyui-window" title="出错啦！" collapsible="false" minimizable="false" maximizable="false" closable="false" style="width:400px;">
+        <p style="text-align:center">{{data["errmsg"]}}</p>
+    </div>
+    {%end%}
 </div>
 {%end%}
 {%block js%}
@@ -54,7 +60,7 @@
     var redirect_url = undefined;
     var tools = new Tools();
     $(document).ready(function () {
-        bind_event_to_form("profileForm", target_url, redirect_url);
+        bind_event_to_form("#profileForm", target_url, redirect_url);
         bind_modify_event("profileForm");
     });
 </script>

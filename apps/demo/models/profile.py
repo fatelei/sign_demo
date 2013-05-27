@@ -16,14 +16,14 @@ class ProfileDAO(object):
 
 
     @classmethod
-    def get_user_profile_by_user_id(cls, user_id):
-        query = table.userprofile.select(table.userprofile.c.id == int(user_id))
+    def get_user_profile_by_profile_id(cls, profile_id):
+        query = table.userprofile.select(table.userprofile.c.id == int(profile_id))
         profile = table.execute(query).first()
         return profile
 
 
     @classmethod
-    def update_user_profile_by_user_id(cls, profile_id, values):
+    def update_user_profile_by_profile_id(cls, profile_id, values):
         update = table.userprofile.update()\
                                   .where(table.userprofile.c.id == int(profile_id))\
                                   .values(values)

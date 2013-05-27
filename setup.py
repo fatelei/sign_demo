@@ -10,7 +10,7 @@ install_requires = ['tornado',
 entry_points = """
 	[console_scripts]
 	sign_contact = demo.app:run
-	insert_admin = demo.scripts.testdata:insert_user
+	testdata = demo.scripts.testdata:run
 """
 
 setup(
