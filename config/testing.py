@@ -4,7 +4,7 @@
 from tornado.options import define
 
 DATABASE = {
-    "conn": "mysql://root:123456@localhost/sign_contact",
+    "conn": "mysql://root:123456@localhost/sign_contract",
     "charset": "utf8",
     "pool_recycle": 1800
 }

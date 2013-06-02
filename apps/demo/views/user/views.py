@@ -89,7 +89,7 @@ class UserProfileHandler(BaseHandler):
         try:
             profile_id = UserDAO.get_profile_id_by_user_id(user_id)
             if profile_id:
-                profile = ProfileDAO.get_user_profile_by_user_id(profile_id)
+                profile = ProfileDAO.get_user_profile_by_profile_id(profile_id)
                 data["fullname"] = profile.fullname
                 data["email"] = profile.email
                 data["phone"] = profile.phone
@@ -148,7 +148,7 @@ class UserRemoveHandler(BaseHandler):
     @render()
     @web.authenticated
     def post(self):
-        user_id = self.get_argument("user_id", None)
+        user_id = self.get_argument("id", None)
         if not user_id:
             return {"errmsg": u"删除失败"}
         UserDAO.remove_user_by_user_id(user_id)
@@ -170,10 +170,17 @@ class UserListAjaxHandler(BaseHandler):
     @web.authenticated
     def post(self):
         page = int(self.get_argument("page", 1))
-        offset = self.get_argument("row", 20)
+        offset = int(self.get_argument("row", 20))
         ok_img = self.static_url("img/ok.png")
         delete_img = self.static_url("img/delete.png")
         data = UserDAO.get_userlist_by_page(page, ok_img, delete_img, offset)
         return data
 
+
+class UsersAjaxHandler(BaseHandler):
+    @render()
+    @web.authenticated
+    def get(self):
+        data = UserDAO.get_users()
+        return data
 

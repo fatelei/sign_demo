@@ -1,0 +1,57 @@
+{%extends "base.html"%}
+{%block content%}
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'center',border:false">
+        <form id="addCTForm" method="POST">
+            {%module xsrf_form_html()%}
+            <table cellpadding="10">
+                <tr>
+                    <td>合同模板拥有者:</td>
+                    <td>
+                        <select name="user_id">
+                        	{%for user in data["users"]%}
+                        	<option value="{{user['id']}}">{{user["name"]}}</option>
+                        	{%end%}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>合同模板名称:</td>
+                    <td>
+                        <input class="easyui-validatebox" type="text" name="tpl_name" data-options="required:true" missingMessage="必须填写" validType="length[5,10]" invalidMessage="密码长度5到10"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>合同模板说明:</td>
+                    <td>
+                        <textarea style="width:300px;height:200px;" class="easyui-validatebox" name="tpl_instruction" data-options="required:true" missingMessage="必须填写"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>合同模板内容:</td>
+                    <td>
+                        <textarea style="width:300px;height:200px;" class="easyui-validatebox" type="text" name="tpl_content" data-options="required:true" missingMessage="必须填写"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div style="margin-top:20px;margin-right:20px;">
+            <a class="easyui-linkbutton" iconCls="icon-ok" id="addCT">添加合同模板</a>
+            <a class="easyui-linkbutton" iconCls="icon-cancel" id="cancelCT">重置</a>
+        </div>
+    </div>
+</div>
+{%end%}
+{%block js%}
+<script type="text/javascript" src="{{static_url('js/common.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/ct.js')}}"></script>
+<script type="text/javascript">
+    var tools = new Tools();
+    var target_url = "{{reverse_url('ctadd')}}";
+    var redirect_url = undefined;
+    $(document).ready(function () {
+        bind_event_to_form("#addCTForm", target_url, redirect_url);
+        bind_add_ct_event("addCTForm");
+    });
+</script>
+{%end%}

@@ -9,7 +9,7 @@ install_requires = ['tornado',
 
 entry_points = """
 	[console_scripts]
-	sign_contact = demo.app:run
+	sign_contract = demo.app:run
 	testdata = demo.scripts.testdata:run
 """
 

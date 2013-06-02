@@ -105,13 +105,13 @@ class UserDAO(object):
         total = table.execute(query_total).first()[0]
         query_user = table.user.select()
         query_user = query_user.limit(offset)
-        query_user = query_user.offset(int(page_num - 1) * offset)
+        query_user = query_user.offset((int(page_num) - 1) * offset)
         user_list = table.execute(query_user).fetchall()
 
         for user in user_list:
             info = {}
             profile = ProfileDAO.get_user_profile_by_profile_id(user[8])
-            info = {"user_id": user[0],
+            info = {"id": user[0],
                     "username": user[1],
                     "fullname": profile.fullname,
                     "email": profile.email,
@@ -132,3 +132,23 @@ class UserDAO(object):
         per_page_data = {"total": total, "rows": data}
         return per_page_data
 
+
+    @classmethod
+    def get_users(cls):
+        data = []
+        query = select([table.user.c.id, table.user.c.username])\
+                    .where(table.user.c.is_delete == 0)
+        users = table.execute(query).fetchall()
+
+        for user in users:
+            data.append({"id": user[0], "name": user[1]})
+        return {"users": data}
+
+
+    @classmethod
+    def get_username_by_id(cls, _id):
+        query = select([table.user.c.username])\
+                    .where(
+                        table.user.c.id == int(_id))
+        rst = table.execute(query).first()
+        return rst[0]

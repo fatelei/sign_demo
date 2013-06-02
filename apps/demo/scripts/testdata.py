@@ -26,5 +26,6 @@ class TestData(object):
 
 def run():
     testdata = TestData()
+    testdata.insert_admin()
     testdata.insert_batch_user()
 

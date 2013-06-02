@@ -67,13 +67,14 @@ CREATE TABLE `company` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `contact_template` (
+CREATE TABLE `contract_template` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `user_id` int(11) NOT NULL COMMENT '合同模板拥有者ID',
     `tpl_name` varchar(255) NOT NULL COMMENT '合同模板名称',
     `tpl_instruction` varchar(255) NOT NULL COMMENT '合同模板说明',
     `tpl_content`text NOT NULL COMMENT '合同模板内容',
     `last_update_time` int(11) unsigned NULL COMMENT '最后更新时间',
+    `is_delete` tinyint(1) NOT NULL DEFAULT 0 COMMENT '',
     PRIMARY KEY (`id`),
     KEY `user_id` (`user_id`),
     KEY `tpl_name` (`tpl_name`),
@@ -81,7 +82,7 @@ CREATE TABLE `contact_template` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `contact` (
+CREATE TABLE `contract` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `user_id` int(11) NOT NULL COMMENT '起草人',
     `contact_content` blob NOT NULL COMMENT '合同内容',

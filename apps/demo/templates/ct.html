@@ -1,0 +1,63 @@
+{%extends "base.html"%}
+{%block content%}
+<div>
+	<table class="easyui-datagrid" title="合同模板列表" id="ctList" striped="true" pagination="true" singleSelect="true" fitColumns="true" pageSize="20" url="{{reverse_url('ctlist_ajax')}}" rownumbers="true" loadMsg="正在加载，请稍等..." toolbar="#toolbar">
+		<thead>
+			<tr>
+				<th data-options="field:'id',width:100">合同模板编号</th>
+				<th data-options="field:'username',width:100">合同模板拥有者</th>
+				<th data-options="field:'tpl_name',width:100">合同模板名称</th>
+				<th data-options="field:'last_update_time',width:100">最后更新时间</th>
+				<th data-options="field:'is_delete',width:100">是否被删除</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+<div id="toolbar">
+	<a id="ctEdit" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true">编辑合同模板</a>
+    <a id="ctRemove" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除合同模板</a>
+</div>
+<div id="editCtDlg" class="easyui-dialog" closed="true" buttons="#dlgBtn">
+	<form id="ctEditFrom" method="POST">
+		{%module xsrf_form_html()%}
+		<table>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>合同模板名称</td>
+				<td>
+					<input type="text" name="tpl_name" class="easyui-validatebox" data-options="required:true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>合同模板说明</td>
+				<td>
+					<textarea name="tpl_instruction" class="easyui-validatebox" data-options="required:true"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>合同模板内容</td>
+				<td>
+					<textarea name="tpl_content" class="easyui-validatebox" data-options="required:true"></textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<div id="dlgBtn">
+	<a id="saveCT" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" plain="true">保存</a>
+	<a id="cancelCT" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">取消</a>
+</div>
+{%module xsrf_form_html() %}
+{%end%}
+{%block js%}
+<script type="text/javascript" src="{{static_url('js/common.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/ct.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+	});
+</script>
+{%end%}
