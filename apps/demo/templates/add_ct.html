@@ -1,57 +1,86 @@
 {%extends "base.html"%}
+{%block css%}
+<link type="text/css" href="{{static_url('css/smart_wizard.css')}}" rel="stylesheet"/>
+<link type="text/css" href="{{static_url('css/jquery-ui/base/jquery-ui.css')}}" rel="stylesheet"/>
+{%end%}
 {%block content%}
-<div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'center',border:false">
-        <form id="addCTForm" method="POST">
-            {%module xsrf_form_html()%}
+<form id="addCTForm" method="POST">
+    {%module xsrf_form_html()%}
+    <div id="wizard" class="swMain">
+        <ul>
+            <li>
+                <a href="#step1">
+                    <label class="stepNumber">1</label>
+                    <span class="stepDesc">合同模板基本信息</span>
+                </a>
+            </li>
+            <li>
+                <a href="#step2">
+                    <label class="stepNumber">2</label>
+                    <span class="stepDesc">合同模板内容</span>
+                </a>
+            </li>
+        </ul>
+        <div id="step1" class="content" style="height:400px;">
             <table cellpadding="10">
                 <tr>
                     <td>合同模板拥有者:</td>
                     <td>
                         <select name="user_id">
-                        	{%for user in data["users"]%}
-                        	<option value="{{user['id']}}">{{user["name"]}}</option>
-                        	{%end%}
+                            {%for user in data["users"]%}
+                            <option value="{{user['id']}}">{{user["name"]}}</option>
+                            {%end%}
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>合同模板名称:</td>
                     <td>
-                        <input class="easyui-validatebox" type="text" name="tpl_name" data-options="required:true" missingMessage="必须填写" validType="length[5,10]" invalidMessage="密码长度5到10"/>
+                        <input class="easyui-validatebox" type="text" name="tpl_name" data-options="required:true" missingMessage="必须填写"/>
                     </td>
                 </tr>
                 <tr>
                     <td>合同模板说明:</td>
                     <td>
-                        <textarea style="width:300px;height:200px;" class="easyui-validatebox" name="tpl_instruction" data-options="required:true" missingMessage="必须填写"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>合同模板内容:</td>
-                    <td>
-                        <textarea style="width:300px;height:200px;" class="easyui-validatebox" type="text" name="tpl_content" data-options="required:true" missingMessage="必须填写"></textarea>
+                       <textarea style="width:300px;height:200px;" class="easyui-validatebox" name="tpl_instruction" data-options="required:true" missingMessage="必须填写"></textarea>
                     </td>
                 </tr>
             </table>
-        </form>
-        <div style="margin-top:20px;margin-right:20px;">
-            <a class="easyui-linkbutton" iconCls="icon-ok" id="addCT">添加合同模板</a>
-            <a class="easyui-linkbutton" iconCls="icon-cancel" id="cancelCT">重置</a>
+        </div>
+        <div id="step2" style="height:900px;overflow-y:scroll;">
+            <div id="menuBtn">
+                <a class="easyui-linkbutton" id="inputBtn" iconCls="icon-remove">单行文本</a>
+                <a class="easyui-linkbutton" id="textBtn" iconCls="icon-remove">文本框</a>
+            </div>
+            <div id="ctTpl">
+            </div>
         </div>
     </div>
-</div>
+</form>
 {%end%}
 {%block js%}
 <script type="text/javascript" src="{{static_url('js/common.js')}}"></script>
 <script type="text/javascript" src="{{static_url('js/ct.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/jquery.smartWizard-2.0.min.js')}}"></script>
 <script type="text/javascript">
     var tools = new Tools();
     var target_url = "{{reverse_url('ctadd')}}";
     var redirect_url = undefined;
+    var func_input;
+    var func_textarea;
     $(document).ready(function () {
+        $("#wizard").smartWizard({
+            selected: 0,
+            enableAllSteps: false,
+            labelNext: "下一步",
+            labelPrevious: "上一步",
+            labelFinish: "完成",
+            onFinish: bind_add_ct_event
+        });
         bind_event_to_form("#addCTForm", target_url, redirect_url);
-        bind_add_ct_event("addCTForm");
+        func_input = add_draggable_input("#ctTpl");
+        func_textarea = add_draggable_textarea("#ctTpl");
+        bind_edit_cttpl_event();
     });
 </script>
 {%end%}

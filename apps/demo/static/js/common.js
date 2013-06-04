@@ -3,6 +3,9 @@ function bind_event_to_form(form_id, target_url, redirect_url) {
         url: target_url,
         onSubmit: function () {
             var isValid = $(this).form("validate");
+            if (!isValid) {
+                $.messager.alert("错误", "请查看已经填写的信息是否正确");
+            }
             return isValid;
         },
         success: function (data) {
