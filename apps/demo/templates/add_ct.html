@@ -4,7 +4,7 @@
 <link type="text/css" href="{{static_url('css/jquery-ui/base/jquery-ui.css')}}" rel="stylesheet"/>
 {%end%}
 {%block content%}
-<form id="addCTForm" method="POST">
+<form id="addCTForm" method="POST" enctype="multipart/form-data">
     {%module xsrf_form_html()%}
     <div id="wizard" class="swMain">
         <ul>
@@ -47,13 +47,8 @@
                 </tr>
             </table>
         </div>
-        <div id="step2" style="height:900px;overflow-y:scroll;">
-            <div id="menuBtn">
-                <a class="easyui-linkbutton" id="inputBtn" iconCls="icon-remove">单行文本</a>
-                <a class="easyui-linkbutton" id="textBtn" iconCls="icon-remove">文本框</a>
-            </div>
-            <div id="ctTpl">
-            </div>
+        <div id="step2">
+            <input type="file" name="tpl_content" accept="text/html" required="required"/>
         </div>
     </div>
 </form>
@@ -65,7 +60,7 @@
 <script type="text/javascript">
     var tools = new Tools();
     var target_url = "{{reverse_url('ctadd')}}";
-    var redirect_url = undefined;
+    var redirect_url = "{{reverse_url('ctlist')}}";
     var func_input;
     var func_textarea;
     $(document).ready(function () {
@@ -78,9 +73,6 @@
             onFinish: bind_add_ct_event
         });
         bind_event_to_form("#addCTForm", target_url, redirect_url);
-        func_input = add_draggable_input("#ctTpl");
-        func_textarea = add_draggable_textarea("#ctTpl");
-        bind_edit_cttpl_event();
     });
 </script>
 {%end%}

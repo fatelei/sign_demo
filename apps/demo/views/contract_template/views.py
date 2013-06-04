@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*-coding: utf8-*-
 
+import logging
+
 from tornado import web
 
 from demo.views.base import BaseHandler
@@ -51,13 +53,16 @@ class CTAddHandler(BaseHandler):
         tpl_instruction = self.get_argument("tpl_instruction", None)
         if not tpl_instruction:
             return {"errmsg": u"请填写合同模板说明!"}
-        tpl_content = self.get_argument("tpl_content", None)
+        try:
+            tpl_content = self.request.files["tpl_content"]
+        except KeyError:
+            return {"errmsg": u"请填写合同模板内容!"}
         if not tpl_content:
             return {"errmsg": u"请填写合同模板内容!"}
         values = {"user_id": int(user_id),
                   "tpl_name": tpl_name,
                   "tpl_instruction": tpl_instruction,
-                  "tpl_content": tpl_content}
+                  "tpl_content": tpl_content[0]["body"]}
         CTDAO.insert_new_ct(values)
         return {"msg": u"添加成功!"}
 

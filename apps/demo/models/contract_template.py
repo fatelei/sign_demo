@@ -2,6 +2,7 @@
 #-*-coding: utf8-*-
 
 import time
+import logging
 
 from datetime import datetime
 from sqlalchemy import select, and_, func
@@ -36,7 +37,7 @@ class CTDAO(object):
         query_ct = query_ct.limit(offset)
         query_ct = query_ct.offset((int(page_num) - 1) * offset)
         ct_list = table.execute(query_ct).fetchall()
-
+        logging.warning(ct_list)
         for ct in ct_list:
             info = {}
             info["id"] = ct[0]
@@ -49,3 +50,4 @@ class CTDAO(object):
                 info["is_delete"] = '<img src="{0}"/>'.format(delete_img)
             data.append(info)
         per_page_data = {"total": total, "rows": data}
+        return per_page_data
