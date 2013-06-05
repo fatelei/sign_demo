@@ -6,6 +6,7 @@ import logging
 
 from datetime import datetime
 from sqlalchemy import select, and_, func
+from tornado.escape import xhtml_unescape
 
 from demo.models.tables import table
 from demo.models.user import UserDAO
@@ -29,6 +30,33 @@ class CTDAO(object):
 
 
     @classmethod
+    def get_ct_by_ct_id(cls, ct_id):
+        query = table.contract_template.select()\
+                                       .where(table.contract_template.c.id == int(ct_id))
+        rst = table.execute(query).first()
+        if rst:
+            data = {}
+            data["id"] = rst[0];
+            data["user_id"] = rst[1]
+            data["tpl_name"] = rst[2]
+            data["tpl_instruction"] = rst[3]
+            if bool(rst[6]):
+                return {}
+            else:
+                return data
+        else:
+            return {}
+
+
+    @classmethod
+    def update_ct_by_ct_id(cls, ct_id, values):
+        update = table.contract_template.update()\
+                                        .where(table.contract_template.c.id == int(ct_id))\
+                                        .values(values)
+        table.execute(update)
+
+
+    @classmethod
     def get_ct_list(cls, page_num, ok_img, delete_img, offset = 20):
         data = []
         query = select([func.count(table.contract_template.c.id)])
@@ -37,7 +65,6 @@ class CTDAO(object):
         query_ct = query_ct.limit(offset)
         query_ct = query_ct.offset((int(page_num) - 1) * offset)
         ct_list = table.execute(query_ct).fetchall()
-        logging.warning(ct_list)
         for ct in ct_list:
             info = {}
             info["id"] = ct[0]
@@ -51,3 +78,14 @@ class CTDAO(object):
             data.append(info)
         per_page_data = {"total": total, "rows": data}
         return per_page_data
+
+
+    @classmethod
+    def get_ct_content_by_ct_id(cls, ct_id):
+        query = select([table.contract_template.c.tpl_content])\
+                    .where(table.contract_template.c.id == int(ct_id))
+        rst = table.execute(query).first()
+        if rst:
+            return rst[0]
+        else:
+            return None

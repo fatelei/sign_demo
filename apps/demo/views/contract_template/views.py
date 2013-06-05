@@ -6,16 +6,18 @@ import logging
 from tornado import web
 
 from demo.views.base import BaseHandler
-from demo.utils.decorate import render
+from demo.utils.decorate import render, log
 
 from demo.models.contract_template import CTDAO
 from demo.models.user import UserDAO
 
 class CTListHandler(BaseHandler):
     @render("ct.html")
+    @log()
     @web.authenticated
     def get(self):
-        return {}
+        data = UserDAO.get_users()
+        return data
 
 
 class CTAjaxListHandler(BaseHandler):
@@ -23,6 +25,7 @@ class CTAjaxListHandler(BaseHandler):
         pass
 
     @render()
+    @log()
     @web.authenticated
     def post(self):
         page = int(self.get_argument("page", 1))
@@ -35,6 +38,7 @@ class CTAjaxListHandler(BaseHandler):
 
 class CTAddHandler(BaseHandler):
     @render("add_ct.html")
+    @log()
     @web.authenticated
     def get(self):
         data = UserDAO.get_users()
@@ -42,6 +46,7 @@ class CTAddHandler(BaseHandler):
 
 
     @render()
+    @log()
     @web.authenticated
     def post(self):
         user_id = self.get_argument("user_id", None)
@@ -69,17 +74,56 @@ class CTAddHandler(BaseHandler):
 
 class CTUpdateHandler(BaseHandler):
     @render()
+    @log()
     @web.authenticated
-    def post(self):
-        pass
+    def get(self, ct_id):
+        data = CTDAO.get_ct_by_ct_id(ct_id)
+        return data
+
+    @render()
+    @log()
+    @web.authenticated
+    def post(self, ct_id):
+        values = {}
+        user_id = self.get_argument("user_id", None)
+        if not user_id:
+            return {"errmsg": u"请选择合同模板拥有者!"}
+        else:
+            values["user_id"] = int(user_id)
+        tpl_name = self.get_argument("tpl_name", None)
+        if not tpl_name:
+            return {"errmsg": u"请填写合同模板名称!"}
+        else:
+            values["tpl_name"] = tpl_name
+        tpl_instruction = self.get_argument("tpl_instruction", None)
+        if not tpl_instruction:
+            return {"errmsg": u"请填写合同模板说明!"}
+        else:
+            values["tpl_instruction"] = tpl_instruction
+        CTDAO.update_ct_by_ct_id(ct_id, values)
+        return {"msg": u"更新成功"}
+
 
 
 class CTRemoveHandler(BaseHandler):
     @render()
+    @log()
     @web.authenticated
     def post(self):
-        ct_id = self.get_argument("ct_id", None)
+        ct_id = self.get_argument("id", None)
         if not ct_id:
             return {"errmsg": u"删除失败"}
         CTDAO.remove_ct(ct_id)
         return {"msg": u"删除成功"}
+
+
+class CTSignHandler(BaseHandler):
+    @render()
+    @log()
+    @web.authenticated
+    def get(self, ct_id):
+        data = CTDAO.get_ct_content_by_ct_id(ct_id)
+        if data:
+            return {"info": data}
+        else:
+            return {"info": ""}

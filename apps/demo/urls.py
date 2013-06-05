@@ -5,6 +5,7 @@ from tornado.web import url
 
 from demo.views.user.views import *
 from demo.views.contract_template.views import *
+from demo.views.admin.views import *
 from demo.views.index import IndexHandler
 
 handlers = [
@@ -18,5 +19,10 @@ handlers = [
 	url("/useradd", UserAddHandler, name = "useradd"),
 	url("/ctlist", CTListHandler, name = "ctlist"),
 	url("/ctlistajax", CTAjaxListHandler, name = "ctlist_ajax"),
-	url("/ctadd", CTAddHandler, name = "ctadd")
+	url("/ctadd", CTAddHandler, name = "ctadd"),
+	url("/ctupdate/(\d+)", CTUpdateHandler, name = "ctupdate"),
+	url("/ctremove", CTRemoveHandler, name = "ctremove"),
+	url("/loglist", LogListHandler, name = "loglist"),
+	url("/logajaxlist", LogAjaxListHandler, name = "logajaxlist"),
+	url("/csign/(\d+)", CTSignHandler, name = "csign")
 ]

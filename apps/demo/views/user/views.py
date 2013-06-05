@@ -46,11 +46,13 @@ class LogoutHandler(BaseHandler):
 
 class UserAddHandler(BaseHandler):
     @render("useradd.html")
+    @log()
     @web.authenticated
     def get(self):
         return {}
 
     @render()
+    @log()
     @web.authenticated
     def post(self):
         username = self.get_argument("username", None)
@@ -83,6 +85,7 @@ class UserAddHandler(BaseHandler):
 
 class UserProfileHandler(BaseHandler):
     @render("profile.html")
+    @log()
     @web.authenticated
     def get(self, user_id):
         data = {}
@@ -101,6 +104,7 @@ class UserProfileHandler(BaseHandler):
             return {"errmsg": u"获取用户信息出错"}
 
     @render()
+    @log()
     @web.authenticated
     def post(self, user_id):
         fullname = self.get_argument("fullname", None)
@@ -126,11 +130,13 @@ class UserProfileHandler(BaseHandler):
 
 class UserPwdHandler(BaseHandler):
     @render("pwdchange.html")
+    @log()
     @web.authenticated
     def get(self, user_id):
         return {}
 
     @render()
+    @log()
     @web.authenticated
     def post(self, user_id):
         password = self.get_argument("password", None)
@@ -146,6 +152,7 @@ class UserPwdHandler(BaseHandler):
 
 class UserRemoveHandler(BaseHandler):
     @render()
+    @log()
     @web.authenticated
     def post(self):
         user_id = self.get_argument("id", None)
@@ -157,6 +164,7 @@ class UserRemoveHandler(BaseHandler):
 
 class UserListHandler(BaseHandler):
     @render("userlist.html")
+    @log()
     @web.authenticated
     def get(self):
         return {}
@@ -167,6 +175,7 @@ class UserListAjaxHandler(BaseHandler):
         pass
 
     @render()
+    @log()
     @web.authenticated
     def post(self):
         page = int(self.get_argument("page", 1))

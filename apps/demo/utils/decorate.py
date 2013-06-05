@@ -40,7 +40,7 @@ def has_permission(model, op):
     return real_decorater
 
 
-def log(op_target):
+def log():
     def real_decorater(func):
         def wraper(self, *args, **kwargs):
             user = self.user
@@ -49,7 +49,9 @@ def log(op_target):
             else:
                 values = {}
                 values["op_user"] = user.username
-                values["op_target"] = op_target
+                values["op_target"] = ":".join([self.request.remote_ip,
+                                                self.request.method, 
+                                                self.request.uri])
                 LogDAO.insert_new_log(values)
                 return func(self, *args, **kwargs)
         return wraper

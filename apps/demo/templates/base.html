@@ -36,19 +36,9 @@
                 <div title="合同管理">
                     <ul class="easyui-tree">
                         <li data-options="state:'closed'">
-                            <span>合同</span>
-                            <ul>
-                                <li>查看合同</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div title="合同模板管理">
-                    <ul class="easyui-tree">
-                        <li data-options="state:'closed'">
                             <span>合同模板</span>
                             <ul>
-                                <li><a href="{{reverse_url('ctlist')}}">查看合同模板</a></li>
+                                <li><a href="{{reverse_url('ctlist')}}">查看合同</a></li>
                                 <li><a href="{{reverse_url('ctadd')}}">增加合同模板</a></li>
                             </ul>
                         </li>
@@ -59,7 +49,7 @@
                         <li data-options="state:'closed'">
                             <span>日志</span>
                             <ul>
-                                <li>查看日志</li>
+                                <li><a href="{{reverse_url('loglist')}}">查看日志</a></li>
                             </ul>
                         </li>
                     </ul>
