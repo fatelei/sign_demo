@@ -2,14 +2,34 @@
 <html lang="zh">
     <head>
         <title>电子合同管理平台</title>
+        <link type="text/css" href="{{static_url('css/base.css')}}" rel="stylesheet"/>
         <link type="text/css" href="{{static_url('css/themes/default/easyui.css')}}" rel="stylesheet"/>
         <link type="text/css" href="{{static_url('css/themes/icon.css')}}" rel="stylesheet"/>
         {%block css%}
         {%end%}
     </head>
     <body class="easyui-layout">
-        <div region="north" border="false" style="height:100px;">
-            <p>{{current_user.username}}</p>
+        <div region="north" border="false" style="background-color: rgb(102, 102, 102); text-align: center; width: 1366px; height: 72px; background-position: initial initial; background-repeat: initial initial;">
+            <div id="header-inner">
+                <table cellpadding="0" cellspacing="0" style="width:100%">
+                    <tbody>
+                        <tr>
+                            <td style="height:52px;">
+                                <div style="color:#fff;font-size:22px;font-weight:bold;">
+                                    <a href="{{reverse_url('index')}}" style="color:#fff;font-size:22px;font-weight:bold;text-decoration:none">电子合同管理平台</a>
+                                </div>
+                            </td>
+                            <td style="padding-right:5px;text-align:right;vertical-align:bottom;">
+                                <div id="topmenu" style="text-align: left;">
+                                    <span style="color:#fff;font-weight:bold;text-decoration:none"> 您好！{{current_user.username}}</span>
+                                    <span><a href="{{reverse_url('logout')}}" class="easyui-linkbutton">注销</a></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
         </div>
         <div region="west" border="true" split="true" title="导航栏" style="width:200px;">
             <div id="navi" class="easyui-accordion" fit="true">

@@ -7,3 +7,5 @@ develop-eggs
 sign_contact.egg-info
 settings.py
 *~
+logs
+temp

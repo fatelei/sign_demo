@@ -10,6 +10,7 @@ from demo.views.index import IndexHandler
 
 handlers = [
 	url("/", LoginHandler, name = "login"),
+	url("/logout", LogoutHandler, name = "logout"),
 	url("/signcontact", IndexHandler, name = "index"),
 	url("/userprofile/(\d+)", UserProfileHandler, name = "profile"),
 	url("/userpwdchange/(\d+)", UserPwdHandler, name = "pwdchange"),

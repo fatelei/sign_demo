@@ -9,7 +9,7 @@
         <div id="loginWin" class="easyui-window" title="用户登录" style="width:600px;height:400px" collapsible="false" minimizable="false" maximizable="false" closable="false" draggable="false" resizable="false" modal="true">
             <div class="easyui-layout" data-options="fit:true">
                 <div data-options="region:'center'">
-                    <form id="loginForm" method="POST">
+                    <form id="loginForm" method="POST" style="padding-left: 20px;padding-top:20px;">
                         {%module xsrf_form_html()%}
                         <table>
                             <tr>
@@ -29,18 +29,17 @@
                                     </select>        
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <a class="easyui-linkbutton" iconCls="icon-ok" id="login">登录</a>
-                                </td>
-                                <td>
-                                    <a class="easyui-linkbutton" iconCls="icon-cancel" id="cancel">重置</a>
-                                </td>
-                            </tr>
                         </table>
                     </form>
                 </div>
+                <div data-options="region:'south'" border="false"  style="height:100px;">
+                    <div style="margin-top:20px;margin-right:20px;float:right;">
+                        <a class="easyui-linkbutton" iconCls="icon-ok" id="login">登录</a>
+                        <a class="easyui-linkbutton" iconCls="icon-cancel" id="cancel">重置</a>
+                    </div>
+                </div>
             </div>
+            
         </div>
     </body>
     <script type="text/javascript" src="{{static_url('js/jquery.min.js')}}"></script>
