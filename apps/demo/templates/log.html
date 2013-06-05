@@ -1,0 +1,15 @@
+{%extends "base.html"%}
+{%block content%}
+<div>
+    <table class="easyui-datagrid" title="用户列表" id="loglist" striped="true" pagination="true" singleSelect="true" fitColumns="true" pageSize="20" url="{{reverse_url('logajaxlist')}}" rownumbers="true" loadMsg="正在加载，请稍等...">
+        <thead>
+            <tr>
+                <th data-options="field:'id',width:100">日志编号</th>
+                <th data-options="field:'op_user',width:100">操作人</th>
+                <th data-options="field:'op_target',width:100">事件对象</th>
+                <th data-options="field:'op_time',width:100">日志时间</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+{%end%}
