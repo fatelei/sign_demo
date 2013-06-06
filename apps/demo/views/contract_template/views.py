@@ -118,7 +118,7 @@ class CTRemoveHandler(BaseHandler):
 
 
 class CTSignHandler(BaseHandler):
-    @render()
+    @render("sign.html")
     @log()
     @web.authenticated
     def get(self, ct_id):
